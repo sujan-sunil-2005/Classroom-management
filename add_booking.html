@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vidyavardhaka College of Engineering - Add Booking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #333;
+        }
+        .college-heading {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #1a3c34;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        h1.text-center {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #1a3c34;
+            margin-bottom: 20px;
+        }
+        .form-label {
+            font-weight: 500;
+            color: #1a3c34;
+        }
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #f4a261;
+            box-shadow: 0 0 5px rgba(244, 162, 97, 0.3);
+            outline: none;
+        }
+        .btn-primary {
+            background-color: #f4a261;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #e76f51;
+            transform: scale(1.02);
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: scale(1.02);
+        }
+        .flash-message {
+            text-align: center;
+            margin: 15px 0;
+            padding: 12px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            font-size: 0.95rem;
+        }
+        .flash-error {
+            color: #e63946;
+            border-left: 4px solid #e63946;
+        }
+        .flash-success {
+            color: #2a9d8f;
+            border-left: 4px solid #2a9d8f;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #1a3c34;
+            color: #fff;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+        .alert-info {
+            background-color: #e9f7f9;
+            border-left: 4px solid #2a9d8f;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="college-heading">Vidyavardhaka College of Engineering</h1>
+    <div class="container">
+        <h1 class="text-center my-4">Add Classroom Booking</h1>
+        <div class="text-center mb-3">
+            <a href="{{ url_for('index') }}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Back to Bookings</a>
+        </div>
+        <form method="POST" id="bookingForm">
+            <div class="mb-3">
+                <label for="room_id" class="form-label">Room</label>
+                <select class="form-select" id="room_id" name="room_id" required>
+                    <option value="">Select a room</option>
+                    {% for room in rooms %}
+                        <option value="{{ room[0] }}">{{ room[1] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="date" class="form-label">Date</label>
+                <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+            <div class="mb-3">
+                <label for="time_slot" class="form-label">Time Slot</label>
+                <select class="form-select" id="time_slot" name="time_slot" required>
+                    <option value="">Select a time slot</option>
+                    {% for slot in time_slots %}
+                        <option value="{{ slot }}">{{ slot }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="section" class="form-label">Section</label>
+                <select class="form-select" id="section" name="section" required>
+                    <option value="">Select a section</option>
+                    {% for sec in sections %}
+                        <option value="{{ sec }}">{{ sec }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="course_code" class="form-label">Course Code</label>
+                <select class="form-select" id="course_code" name="course_code" required>
+                    <option value="">Select a course code</option>
+                    {% for code in course_codes %}
+                        <option value="{{ code }}">{{ code }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Add Booking</button>
+        </form>
+
+        {% if show_alert and available_rooms %}
+            <div class="alert alert-info">
+                <strong>The selected room is booked.</strong> Available rooms for {{ selected_date }} at {{ selected_time_slot }}:
+                <ul>
+                    {% for room in available_rooms %}
+                        <li>{{ room[1] }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        {% for message in get_flashed_messages() %}
+            <p class="flash-message {{ 'flash-success' if 'successfully' in message.lower() else 'flash-error' }}">{{ message }}</p>
+        {% endfor %}
+    </div>
+
+    <footer>
+        © 2025 Vidyavardhaka College of Engineering Classroom Management System. All rights reserved.
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('bookingForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const roomId = document.getElementById('room_id').value;
+            const date = document.getElementById('date').value;
+            const timeSlot = document.getElementById('time_slot').value;
+
+            if (!roomId || !date || !timeSlot) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/check_availability', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        room_id: roomId,
+                        date: date,
+                        time_slot: timeSlot
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.available) {
+                    document.getElementById('bookingForm').submit();
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                alert('An error occurred while checking availability. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
